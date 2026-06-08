@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作品展示 - AI产品经理个人作品集</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">我的作品集</a>
+                <ul class="nav-links">
+                    <li><a href="index.html#about">关于我</a></li>
+                    <li><a href="#" class="active">作品展示</a></li>
+                    <li><a href="resume.html">简历</a></li>
+                    <li><a href="index.html#contact">联系我</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="portfolio-header">
+        <div class="container">
+            <h1>作品展示</h1>
+            <p class="subtitle">精选AI产品案例展示，包含全链路设计文档、原型图与实现效果</p>
+        </div>
+    </section>
+
+    <section class="portfolio-filters">
+        <div class="container">
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">全部</button>
+                <button class="filter-btn" data-filter="ai">AI产品</button>
+                <button class="filter-btn" data-filter="enterprise">企业应用</button>
+                <button class="filter-btn" data-filter="product">产品设计</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="portfolio-grid">
+        <div class="container">
+            <div class="projects">
+                <article class="project-item" data-category="ai enterprise product">
+                    <a href="portfolio/ai-chatbot.html">
+                        <div class="project-img">
+                            <img src="assets/ai-chatbot-preview.jpg" alt="AI聊天助手产品">
+                        </div>
+                        <div class="project-content">
+                            <span class="project-badge">AI产品 · 企业级</span>
+                            <h3>AI聊天助手</h3>
+                            <p>面向电商企业的智能客服解决方案，准确率提升24%</p>
+                        </div>
+                    </a>
+                </article>
+
+                <article class="project-item" data-category="ai product">
+                    <a href="portfolio/prompt-engineering.html">
+                        <div class="project-img">
+                            <img src="assets/prompt-engineering-preview.jpg" alt="Prompt工程平台">
+                        </div>
+                        <div class="project-content">
+                            <span class="project-badge">AI产品 · 工具</span>
+                            <h3>Prompt工程平台</h3>
+                            <p>内部使用的Prompt管理系统，提升团队效率40%</p>
+                        </div>
+                    </a>
+                </article>
+
+                <article class="project-item" data-category="enterprise product">
+                    <a href="portfolio/bim-ai.html">
+                        <div class="project-img">
+                            <img src="assets/bim-ai-preview.jpg" alt="BIM+AI工程管理">
+                        </div>
+                        <div class="project-content">
+                            <span class="project-badge">企业级 · BIM</span>
+                            <h3>BIM+AI工程管理</h3>
+                            <p>建筑行业AI应用，设计变更预测准确率达85%</p>
+                        </div>
+                    </a>
+                </article>
+
+                <article class="project-item" data-category="ai product">
+                    <a href="portfolio/document-analyzer.html">
+                        <div class="project-img">
+                            <img src="assets/document-analyzer-preview.jpg" alt="合同智能分析">
+                        </div>
+                        <div class="project-content">
+                            <span class="project-badge">AI产品 · 文档分析</span>
+                            <h3>合同智能分析系统</h3>
+                            <p>建筑行业合同自动解析，效率提升5倍</p>
+                        </div>
+                    </a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2026 [你的名字]. 版权所有.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

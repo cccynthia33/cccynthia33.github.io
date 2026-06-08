@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI聊天助手 - 作品案例</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <nav>
+                <a href="../index.html" class="logo">我的作品集</a>
+                <ul class="nav-links">
+                    <li><a href="../index.html#about">关于我</a></li>
+                    <li><a href="../portfolio.html">作品展示</a></li>
+                    <li><a href="../resume.html">简历</a></li>
+                    <li><a href="../index.html#contact">联系我</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="project-detail">
+        <div class="container">
+            <div class="project-header">
+                <div class="project-meta">
+                    <span class="project-category">AI产品 · 企业应用</span>
+                    <h1>AI聊天助手</h1>
+                    <div class="project-info">
+                        <div class="info-item">
+                            <strong>项目周期</strong>
+                            <span>2025.03 - 2025.09</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>我的角色</strong>
+                            <span>产品负责人</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>成果</strong>
+                            <span>用户问题准确率从65%提升至89%，客服成本降低40%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-hero">
+                    <img src="../assets/ai-chatbot-hero.jpg" alt="AI聊天助手产品界面">
+                </div>
+            </div>
+
+            <section class="project-section">
+                <h2>项目背景</h2>
+                <p>客户是一家大型电商平台，面临客服人力成本高、响应速度慢、高峰期客服压力大等问题。原有客服系统仅支持简单关键词匹配，无法理解用户复杂问题，导致大量问题需要转接人工客服。</p>
+                <p>我的任务是设计一款AI聊天助手，能够准确理解用户意图，解决常见问题，减轻人工客服压力。</p>
+            </section>
+
+            <section class="project-section">
+                <h2>产品定义与PRD</h2>
+                <p>我主导编写了完整的产品需求文档，明确了产品范围、用户场景、功能需求和技术方案。</p>
+
+                <div class="document-preview">
+                    <div class="doc-header">
+                        <h3>AI客服助手产品需求文档（PRD）</h3>
+                        <a href="../docs/ai-chatbot-prd.pdf" class="btn-secondary" target="_blank">下载完整PRD</a>
+                    </div>
+                    <div class="doc-content">
+                        <ul>
+                            <li><strong>目标用户</strong>：电商平台买家，日活跃用户500万</li>
+                            <li><strong>核心目标</strong>：解决80%的常见问题，准确率≥85%，响应时间<2秒</li>
+                            <li><strong>关键功能</strong>：订单查询、退换货流程、支付问题解决、产品推荐等</li>
+                            <li><strong>核心指标</strong>：问题准确率、转人工率、用户满意度、平均处理时间</li>
+                            <li><strong>技术方案</strong>：基于BERT的意图识别+知识图谱+规则引擎的混合方案</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="project-section">
+                <h2>产品设计与原型</h2>
+                <p>我设计了完整的用户交互流程和界面原型，确保用户体验流畅、符合用户习惯。</p>
+
+                <div class="prototype-section">
+                    <div class="prototype-tabs">
+                        <button class="tab-btn active" data-tab="wireframe">线框图</button>
+                        <button class="tab-btn" data-tab="high-fidelity">高保真原型</button>
+                        <button class="tab-btn" data-tab="flow">用户流程</button>
+                    </div>
+
+                    <div class="prototype-content">
+                        <div class="tab-panel active" id="wireframe">
+                            <img src="../assets/ai-chatbot-wireframe.jpg" alt="AI聊天助手线框图">
+                            <p class="caption">产品线框图，展示了核心交互流程和页面布局</p>
+                        </div>
+                        <div class="tab-panel" id="high-fidelity">
+                            <img src="../assets/ai-chatbot-prototype.jpg" alt="AI聊天助手高保真原型">
+                            <p class="caption">高保真原型，展示了最终视觉效果和交互细节</p>
+                        </div>
+                        <div class="tab-panel" id="flow">
+                            <img src="../assets/ai-chatbot-flow.jpg" alt="用户流程图">
+                            <p class="caption">用户问题解决流程图，展示了AI如何识别用户意图并提供解决方案</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="figma-link">
+                    <a href="https://figma.com/file/..." target="_blank" class="btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                            <path d="M2 17l10 5 10-5"></path>
+                            <path d="M2 12l10 5 10-5"></path>
+                        </svg>
+                        查看Figma原型（交互版）
+                    </a>
+                </div>
+            </section>
+
+            <section class="project-section">
+                <h2>产品架构与Xmind图</h2>
+                <p>我绘制了详细的产品架构图，明确了系统各组件关系和数据流向。</p>
+
+                <div class="architecture">
+                    <img src="../assets/ai-chatbot-architecture.jpg" alt="AI聊天助手产品架构图">
+                    <p class="caption">产品架构与功能模块关系图，使用Xmind制作</p>
+                </div>
+
+                <div class="download-links">
+                    <a href="../docs/ai-chatbot-architecture.xmind" class="btn-secondary" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        下载Xmind源文件
+                    </a>
+                </div>
+            </section>
+
+            <section class="project-section">
+                <h2>产品落地与效果</h2>
+                <p>产品上线后，通过数据分析和持续迭代，取得了显著成效。</p>
+
+                <div class="results">
+                    <div class="result-item">
+                        <div class="result-value">89%</div>
+                        <div class="result-label">用户问题准确率</div>
+                        <div class="result-comparison">+24% vs 原系统</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-value">40%</div>
+                        <div class="result-label">人工客服成本降低</div>
+                        <div class="result-comparison">节省人力成本200万/年</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-value">2.1s</div>
+                        <div class="result-label">平均响应时间</div>
+                        <div class="result-comparison">-60% vs 原系统</div>
+                    </div>
+                </div>
+
+                <div class="screenshots">
+                    <h3>产品截图</h3>
+                    <div class="screenshot-grid">
+                        <img src="../assets/chatbot-screenshot1.jpg" alt="AI聊天助手截图1">
+                        <img src="../assets/chatbot-screenshot2.jpg" alt="AI聊天助手截图2">
+                        <img src="../assets/chatbot-screenshot3.jpg" alt="AI聊天助手截图3">
+                    </div>
+                </div>
+
+                <div class="demo-video">
+                    <h3>产品演示视频</h3>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/..." frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </section>
+
+            <section class="project-section">
+                <h2>项目复盘与思考</h2>
+                <p>作为产品经理，我定期进行项目复盘，总结经验教训，为后续项目提供参考。</p>
+
+                <div class="reflection">
+                    <div class="reflection-item">
+                        <h3>关键成功因素</h3>
+                        <ul>
+                            <li>深入理解用户问题场景，建立高质量的问题-答案知识库</li>
+                            <li>设计了完善的转人工机制，确保用户体验不下降</li>
+                            <li>与数据团队紧密合作，建立有效的模型评估体系</li>
+                        </ul>
+                    </div>
+
+                    <div class="reflection-item">
+                        <h3>遇到的挑战与解决方案</h3>
+                        <ul>
+                            <li><strong>挑战：</strong>用户问题表述多样，意图识别准确率低
+                                <strong>方案：</strong>引入用户问题聚类分析，优化意图分类模型</li>
+                            <li><strong>挑战：</strong>特殊场景（如订单异常）处理能力不足
+                                <strong>方案：</strong>设计规则引擎处理边界情况，与AI模型形成互补</li>
+                        </ul>
+                    </div>
+
+                    <div class="reflection-item">
+                        <h3>经验总结</h3>
+                        <p>AI产品设计不同于传统产品，需要深入理解技术边界，平衡用户体验与技术可行性。产品经理既要懂用户，也要懂技术，才能设计出真正有价值的产品。</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="project-navigation">
+                <a href="../portfolio.html" class="btn-secondary">
+                    ← 返回作品集
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2026 [你的名字]. 版权所有.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/script.js"></script>
+</body>
+</html>
