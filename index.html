@@ -1,132 +1,936 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI产品经理个人作品集</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>陈莹璇 | AI 产品经理</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: rgba(18, 18, 30, 0.7);
+            --text-primary: #e8e8f0;
+            --text-secondary: #9090a8;
+            --accent-1: #6366f1;
+            --accent-2: #06b6d4;
+            --accent-3: #a78bfa;
+            --gradient-1: linear-gradient(135deg, #6366f1, #06b6d4);
+            --gradient-2: linear-gradient(135deg, #a78bfa, #6366f1);
+            --gradient-3: linear-gradient(135deg, #06b6d4, #10b981);
+            --border-color: rgba(99, 102, 241, 0.15);
+            --glow: 0 0 40px rgba(99, 102, 241, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ===== Canvas Particles ===== */
+        #particles-canvas {
+            position: fixed; top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: 0; pointer-events: none;
+        }
+
+        /* ===== Grid Background ===== */
+        .grid-bg {
+            position: fixed; top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-image:
+                linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: 0; pointer-events: none;
+        }
+
+        /* ===== Navigation ===== */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 0 2rem;
+            height: 64px;
+            display: flex; align-items: center; justify-content: center;
+            backdrop-filter: blur(20px);
+            background: rgba(10, 10, 15, 0.6);
+            border-bottom: 1px solid var(--border-color);
+            transition: transform 0.3s;
+        }
+        nav.hidden { transform: translateY(-100%); }
+        .nav-inner {
+            width: 100%; max-width: 1200px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .nav-logo {
+            font-weight: 700; font-size: 1.1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a {
+            color: var(--text-secondary); text-decoration: none;
+            font-size: 0.875rem; font-weight: 500;
+            transition: color 0.3s; position: relative;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -4px; left: 0;
+            width: 0; height: 2px;
+            background: var(--gradient-1);
+            transition: width 0.3s;
+        }
+        .nav-links a:hover { color: var(--text-primary); }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* ===== Main Container ===== */
+        .main { position: relative; z-index: 1; }
+
+        /* ===== Hero ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            padding: 6rem 2rem 4rem;
+            position: relative;
+        }
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+        }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            color: var(--accent-3);
+            background: rgba(99, 102, 241, 0.08);
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease;
+        }
+        .hero-badge .dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #10b981;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+        .hero h1 .gradient-text {
+            background: var(--gradient-1);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero .subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--text-secondary);
+            max-width: 640px;
+            margin: 0 auto 1.5rem;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+        .hero .terminal {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-2);
+            background: rgba(6, 182, 212, 0.06);
+            border: 1px solid rgba(6, 182, 212, 0.15);
+            border-radius: 8px;
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+        .hero .terminal .cursor {
+            display: inline-block;
+            width: 2px; height: 1em;
+            background: var(--accent-2);
+            margin-left: 4px;
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+        .hero-actions {
+            display: flex; gap: 1rem; justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+        .btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.8rem 2rem;
+            border-radius: 12px;
+            font-weight: 600; font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer; border: none;
+        }
+        .btn-primary {
+            background: var(--gradient-1);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+        }
+        .btn-outline {
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            background: transparent;
+        }
+        .btn-outline:hover {
+            border-color: var(--accent-1);
+            background: rgba(99, 102, 241, 0.08);
+            transform: translateY(-2px);
+        }
+        .scroll-indicator {
+            position: absolute; bottom: 2rem; left: 50%;
+            transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center;
+            gap: 0.5rem; color: var(--text-secondary);
+            font-size: 0.75rem;
+            animation: fadeInUp 0.8s ease 0.8s both;
+        }
+        .scroll-indicator .mouse {
+            width: 24px; height: 38px;
+            border: 2px solid var(--text-secondary);
+            border-radius: 12px;
+            position: relative;
+        }
+        .scroll-indicator .mouse::after {
+            content: ''; position: absolute; top: 6px; left: 50%;
+            transform: translateX(-50%);
+            width: 3px; height: 8px;
+            background: var(--accent-2);
+            border-radius: 2px;
+            animation: scrollWheel 2s infinite;
+        }
+        @keyframes scrollWheel {
+            0%, 100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+            50% { transform: translateX(-50%) translateY(8px); opacity: 0.3; }
+        }
+
+        /* ===== Section ===== */
+        .section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .section-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--accent-3);
+            margin-bottom: 1rem;
+        }
+        .section h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .section h2 .gradient-text {
+            background: var(--gradient-2);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .section-desc {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== About Section ===== */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+        .about-text p {
+            color: var(--text-secondary);
+            margin-bottom: 1.2rem;
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+        .about-text p strong { color: var(--text-primary); }
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+        .stat-card:hover {
+            border-color: var(--accent-1);
+            transform: translateY(-4px);
+            box-shadow: var(--glow);
+        }
+        .stat-card .number {
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .stat-card .label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.3rem;
+        }
+
+        /* ===== Projects ===== */
+        .projects-grid {
+            display: grid;
+            gap: 2rem;
+        }
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .project-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--gradient-1);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .project-card:hover::before { opacity: 1; }
+        .project-card:hover {
+            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateY(-4px);
+            box-shadow: var(--glow);
+        }
+        .project-card .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .project-card .project-icon {
+            width: 48px; height: 48px;
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        .project-card .project-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        .project-card .project-subtitle {
+            color: var(--accent-2);
+            font-size: 0.85rem;
+            font-weight: 500;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .project-card .project-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin: 1rem 0;
+        }
+        .project-card .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .project-card .project-tags span {
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background: rgba(99, 102, 241, 0.08);
+            color: var(--accent-3);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+        }
+        .project-card .project-highlights {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin: 1.25rem 0;
+        }
+        .project-card .project-highlights li {
+            list-style: none;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .project-card .project-highlights li::before {
+            content: '▸';
+            color: var(--accent-2);
+        }
+
+        /* ===== Skills ===== */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .skill-group {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.75rem;
+            backdrop-filter: blur(10px);
+        }
+        .skill-group h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent-2);
+            margin-bottom: 1.25rem;
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .skill-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+        .skill-items .skill-tag {
+            padding: 0.4rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            background: rgba(99, 102, 241, 0.06);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+        .skill-items .skill-tag:hover {
+            background: rgba(99, 102, 241, 0.15);
+            border-color: var(--accent-1);
+            transform: translateY(-2px);
+        }
+
+        /* ===== Contact ===== */
+        .contact-section {
+            text-align: center;
+            padding-bottom: 4rem;
+        }
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .contact-link {
+            display: flex; align-items: center; gap: 0.6rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        .contact-link:hover {
+            color: var(--text-primary);
+            border-color: var(--accent-1);
+            background: rgba(99, 102, 241, 0.06);
+            transform: translateY(-2px);
+        }
+        .contact-link .icon { font-size: 1.2rem; }
+
+        /* ===== Footer ===== */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* ===== Animations ===== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .about-grid { grid-template-columns: 1fr; }
+            .about-stats { grid-template-columns: repeat(3, 1fr); }
+            .project-card .project-highlights { grid-template-columns: 1fr; }
+            .section { padding: 4rem 1.25rem; }
+            .hero { padding: 5rem 1.25rem 3rem; }
+        }
+        @media (max-width: 480px) {
+            .about-stats { grid-template-columns: 1fr; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .contact-links { flex-direction: column; align-items: center; }
+        }
+    </style>
 </head>
 <body>
-    <header class="site-header">
-        <div class="container">
-            <nav>
-                <a href="index.html" class="logo">陈莹璇</a>
-                <ul class="nav-links">
-                    <li><a href="#about">关于我</a></li>
-                    <li><a href="portfolio.html">作品展示</a></li>
-                    <li><a href="resume.html">简历</a></li>
-                    <li><a href="#contact">联系我</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
 
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>设计智能产品的人<br>我是陈莹璇</h1>
-                <p class="subtitle">AI产品经理 | 融合建筑行业经验与AI技术的产品专家<br>10+年前端开发经验 → AI产品经理转型</p>
-                <a href="portfolio.html" class="btn-primary">查看我的作品</a>
+<canvas id="particles-canvas"></canvas>
+<div class="grid-bg"></div>
+
+<!-- Navigation -->
+<nav id="navbar">
+    <div class="nav-inner">
+        <span class="nav-logo">✦ Chen Yingxuan</span>
+        <ul class="nav-links">
+            <li><a href="#about">关于</a></li>
+            <li><a href="#projects">项目</a></li>
+            <li><a href="#skills">技能</a></li>
+            <li><a href="#contact">联系</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="main">
+
+<!-- Hero -->
+<section class="hero" id="hero">
+    <div class="hero-content">
+        <div class="hero-badge">
+            <span class="dot"></span>
+            AI 产品经理 · 开放合作
+        </div>
+        <h1>
+            用 AI<br/>
+            <span class="gradient-text">重塑产品体验</span>
+        </h1>
+        <p class="subtitle">
+            擅长将 AI 能力转化为可落地的产品方案，从 0 到 1 构建智能助手、
+            设计极简工具，让技术真正服务于人。
+        </p>
+        <div class="terminal">
+            <span id="typing-text"></span><span class="cursor"></span>
+        </div>
+        <div class="hero-actions">
+            <a href="#projects" class="btn btn-primary">
+                <span>▼</span> 查看作品
+            </a>
+            <a href="#contact" class="btn btn-outline">
+                联系我
+            </a>
+        </div>
+    </div>
+    <div class="scroll-indicator">
+        <div class="mouse"></div>
+        <span>向下滚动</span>
+    </div>
+</section>
+
+<!-- About -->
+<section class="section" id="about">
+    <div class="section-header reveal">
+        <div class="section-tag">About</div>
+        <h2>关于<span class="gradient-text">我</span></h2>
+    </div>
+    <div class="about-grid">
+        <div class="about-text reveal">
+            <p>
+                <strong>👋 你好，我是陈莹璇</strong> — 一名专注于 AI 领域的产品经理。
+                我致力于将前沿的人工智能技术与真实的用户需求相结合，打造有温度、有效率的智能产品。
+            </p>
+            <p>
+                从面向建筑行业的 <strong>AI 智能助手</strong>，到为多宠家庭设计的
+                <strong>轻量记录工具</strong>，再到极简主义风格的 <strong>习惯打卡器</strong>，
+                每一个项目都体现了我对产品细节的极致追求和对用户痛点的深刻理解。
+            </p>
+            <p>
+                我相信好的产品不是在炫技，而是在合适的场景用合适的技术
+                解决真实的问题。我擅长 PRD 撰写、用户调研、交互设计、
+                数据分析，以及将复杂的 AI 能力包装成简单易用的产品功能。
+            </p>
+        </div>
+        <div class="about-stats reveal">
+            <div class="stat-card">
+                <div class="number">3+</div>
+                <div class="label">落地项目</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">AI</div>
+                <div class="label">核心方向</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">全栈</div>
+                <div class="label">产品设计</div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section id="about" class="about-section">
-        <div class="container">
-            <div class="about-grid">
-                <div class="about-image">
-                    <img src="assets/profile.jpg" alt="陈莹璇 个人照片">
+<!-- Projects -->
+<section class="section" id="projects">
+    <div class="section-header reveal">
+        <div class="section-tag">Portfolio</div>
+        <h2>代表<span class="gradient-text">项目</span></h2>
+        <p class="section-desc">从 AI 助手到工具型小程序，每个项目都用心打磨</p>
+    </div>
+
+    <div class="projects-grid">
+
+        <!-- Project 1 -->
+        <div class="project-card reveal">
+            <div class="project-header">
+                <div>
+                    <div class="project-title">易筑智能助手</div>
+                    <div class="project-subtitle">Evo AI Assistant · 企业级 AI 助手</div>
                 </div>
-                <div class="about-content">
-                    <h2>关于我</h2>
-                    <p>10+年前端开发经验，6年B端SaaS/ERP经验（建筑行业）→ 转型AI产品经理。懂客户、懂业务、懂技术，已系统学习AI产品方法与Prompt工程，擅长从企业场景中挖掘AI落地机会。</p>
-                    <p>正在寻求AI产品经理岗位，希望将建筑行业理解与AI能力结合，做出真正解决问题的产品。</p>
-
-                    <div class="skills">
-                        <h3>专业技能</h3>
-                        <ul>
-                            <li>AI产品战略与规划（建筑行业AI应用）</li>
-                            <li>全链路产品设计（PRD、原型、用户测试）</li>
-                            <li>Prompt工程与AI辅助设计</li>
-                            <li>跨职能团队协作（工程师、数据科学家、设计师）</li>
-                            <li>建筑行业B端产品经验（金螳螂、江河等客户）</li>
-                        </ul>
-                    </div>
+                <div class="project-icon" style="background:linear-gradient(135deg,rgba(99,102,241,0.15),rgba(6,182,212,0.15));">
+                    🤖
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section class="featured-projects">
-        <div class="container">
-            <h2 class="section-title">精选作品</h2>
-            <div class="projects">
-                <article class="project-item" data-category="ai enterprise">
-                    <a href="portfolio/ai-chatbot.html">
-                        <div class="project-img">
-                            <img src="assets/ai-chatbot-preview.jpg" alt="AI聊天助手">
-                        </div>
-                        <div class="project-content">
-                            <span class="project-badge">AI产品 · 企业级</span>
-                            <h3>AI聊天助手</h3>
-                            <p>面向电商企业的智能客服解决方案，准确率提升24%</p>
-                        </div>
-                    </a>
-                </article>
-
-                <article class="project-item" data-category="ai product">
-                    <a href="portfolio/prompt-engineering.html">
-                        <div class="project-img">
-                            <img src="assets/prompt-engineering-preview.jpg" alt="Prompt工程平台">
-                        </div>
-                        <div class="project-content">
-                            <span class="project-badge">AI产品 · 工具</span>
-                            <h3>Prompt工程平台</h3>
-                            <p>内部使用的Prompt管理系统，提升团队效率40%</p>
-                        </div>
-                    </a>
-                </article>
-
-                <article class="project-item" data-category="enterprise product">
-                    <a href="portfolio/bim-ai.html">
-                        <div class="project-img">
-                            <img src="assets/bim-ai-preview.jpg" alt="BIM+AI工程管理">
-                        </div>
-                        <div class="project-content">
-                            <span class="project-badge">企业级 · BIM</span>
-                            <h3>BIM+AI工程管理</h3>
-                            <p>建筑行业AI应用，设计变更预测准确率达85%</p>
-                        </div>
-                    </a>
-                </article>
+            <p class="project-desc">
+                面向建筑工程行业的 AI 智能助手，深度嵌入易筑 Evo 企业管理系统。
+                基于 RAG 技术构建，支持自然语言问答、深度链接跳转、多步骤流程引导，
+                帮助 200+ 功能模块的用户快速上手。
+            </p>
+            <ul class="project-highlights">
+                <li>RAG 知识库问答，首字响应 &lt; 3s</li>
+                <li>深度链接直达 200+ 功能页面</li>
+                <li>多步骤流程引导，降低学习成本</li>
+                <li>知识库管理后台 + 运营数据看板</li>
+                <li>NL2SQL 数据查询与图表生成</li>
+                <li>用户反馈闭环 + 转人工机制</li>
+            </ul>
+            <div class="project-tags">
+                <span>RAG</span><span>LLM</span><span>深度链接</span>
+                <span>知识库</span><span>NL2SQL</span><span>PRD</span>
             </div>
-            <div class="text-center">
-                <a href="portfolio.html" class="btn-primary">查看全部作品</a>
+            <a href="project-evo.html" class="btn btn-primary" style="padding:0.6rem 1.5rem;font-size:0.85rem;margin-top:1rem;display:inline-flex;text-decoration:none;">查看详情 →</a>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="project-card reveal">
+            <div class="project-header">
+                <div>
+                    <div class="project-title">宠宠记事本</div>
+                    <div class="project-subtitle">多宠家庭轻量记录工具 · 微信小程序</div>
+                </div>
+                <div class="project-icon" style="background:linear-gradient(135deg,rgba(251,146,60,0.15),rgba(236,72,153,0.15));">
+                    🐾
+                </div>
+            </div>
+            <p class="project-desc">
+                为多宠家庭设计的极简备忘录式小程序。支持多宠物档案管理、
+                喂食/排泄快速记录、健康提醒、今日概况看板。
+                单用户免登录设计，所有数据本地存储，开箱即用。
+            </p>
+            <ul class="project-highlights">
+                <li>多宠切换 + 今日概况一目了然</li>
+                <li>两步内完成喂食/排泄记录</li>
+                <li>Emoji 喜好标记 + 状态追踪</li>
+                <li>定期提醒（驱虫/疫苗/洗澡）</li>
+                <li>本地存储，无需网络，即开即用</li>
+                <li>暖橙色设计系统，温暖治愈</li>
+            </ul>
+            <div class="project-tags">
+                <span>微信小程序</span><span>本地存储</span>
+                <span>UX 设计</span><span>PRD</span>
+            </div>
+            <a href="project-pet.html" class="btn btn-primary" style="padding:0.6rem 1.5rem;font-size:0.85rem;margin-top:1rem;display:inline-flex;text-decoration:none;">查看详情 →</a>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="project-card reveal">
+            <div class="project-header">
+                <div>
+                    <div class="project-title">废柴打卡器</div>
+                    <div class="project-subtitle">极简习惯追踪 · 微信小程序</div>
+                </div>
+                <div class="project-icon" style="background:linear-gradient(135deg,rgba(56,189,248,0.15),rgba(52,211,153,0.15));">
+                    🔥
+                </div>
+            </div>
+            <p class="project-desc">
+                "打开 → 点一下 → 关掉"，全程不超过 3 秒的极简打卡工具。
+                去社交、去等级、去社区——只保留日历打卡和月度统计。
+                轻松调侃的产品调性（"废柴"不是自嘲，而是接纳），
+                帮助用户无负担地养成习惯。
+            </p>
+            <ul class="project-highlights">
+                <li>极简交互：打开即见日历概览</li>
+                <li>点击打卡，支持前置/追溯记录</li>
+                <li>🔥 连续天数激励</li>
+                <li>月度统计报表 + 完成排行</li>
+                <li>模块化存储层设计，易迁移</li>
+                <li>轻松调侃的产品调性</li>
+            </ul>
+            <div class="project-tags">
+                <span>微信小程序</span><span>极简设计</span>
+                <span>行为设计</span><span>PRD</span>
+            </div>
+            <a href="project-checkin.html" class="btn btn-primary" style="padding:0.6rem 1.5rem;font-size:0.85rem;margin-top:1rem;display:inline-flex;text-decoration:none;">查看详情 →</a>
+        </div>
+    </div>
+</section>
+
+<!-- Skills -->
+<section class="section" id="skills">
+    <div class="section-header reveal">
+        <div class="section-tag">Skills</div>
+        <h2>专业<span class="gradient-text">能力</span></h2>
+        <p class="section-desc">产品思维 + 技术理解 + 设计审美</p>
+    </div>
+
+    <div class="skills-grid">
+        <div class="skill-group reveal">
+            <h3>📋 产品设计</h3>
+            <div class="skill-items">
+                <span class="skill-tag">PRD 撰写</span>
+                <span class="skill-tag">用户调研</span>
+                <span class="skill-tag">竞品分析</span>
+                <span class="skill-tag">数据分析</span>
+                <span class="skill-tag">A/B 测试</span>
+                <span class="skill-tag">功能规划</span>
+                <span class="skill-tag">OKR 制定</span>
+                <span class="skill-tag">迭代管理</span>
             </div>
         </div>
-    </section>
-
-    <section id="contact" class="contact-section">
-        <div class="container">
-            <div class="contact-info text-center">
-                <h2>联系我</h2>
-                <p>如果您对我的工作感兴趣或想讨论合作机会，请随时联系我。</p>
-                <ul class="contact-details">
-                    <li>📧 <a href="mailto:cccynthia33@163.com">cccynthia33@163.com</a></li>
-                </ul>
+        <div class="skill-group reveal">
+            <h3>🤖 AI / 技术</h3>
+            <div class="skill-items">
+                <span class="skill-tag">LLM 应用</span>
+                <span class="skill-tag">RAG 架构</span>
+                <span class="skill-tag">Prompt Engineering</span>
+                <span class="skill-tag">NL2SQL</span>
+                <span class="skill-tag">知识库设计</span>
+                <span class="skill-tag">AI Agent</span>
+                <span class="skill-tag">API 设计</span>
             </div>
         </div>
-    </section>
-
-    <footer class="site-footer">
-        <div class="container">
-            <div class="footer-content">
-                <p>&copy; 2026 陈莹璇. 版权所有.</p>
+        <div class="skill-group reveal">
+            <h3>🎨 交互设计</h3>
+            <div class="skill-items">
+                <span class="skill-tag">Figma</span>
+                <span class="skill-tag">原型设计</span>
+                <span class="skill-tag">交互流程</span>
+                <span class="skill-tag">设计系统</span>
+                <span class="skill-tag">用户旅程</span>
+                <span class="skill-tag">可用性测试</span>
             </div>
         </div>
-    </footer>
+        <div class="skill-group reveal">
+            <h3>📊 工具 / 平台</h3>
+            <div class="skill-items">
+                <span class="skill-tag">微信小程序</span>
+                <span class="skill-tag">飞书/钉钉</span>
+                <span class="skill-tag">Jira</span>
+                <span class="skill-tag">Notion</span>
+                <span class="skill-tag">SQL</span>
+                <span class="skill-tag">Python</span>
+            </div>
+        </div>
+    </div>
+</section>
 
-    <script src="js/script.js"></script>
+<!-- Contact -->
+<section class="section contact-section" id="contact">
+    <div class="section-header reveal">
+        <div class="section-tag">Contact</div>
+        <h2>保持<span class="gradient-text">联系</span></h2>
+        <p class="section-desc">如果有产品合作或工作机会，欢迎随时联系</p>
+    </div>
+    <div class="contact-links reveal">
+        <a href="mailto:cccynthia33@163.com" class="contact-link">
+            <span class="icon">✉</span> cccynthia33@163.com
+        </a>
+        <a href="#" class="contact-link">
+            <span class="icon">💼</span> 作品集 PDF
+        </a>
+        <a href="#" class="contact-link">
+            <span class="icon">📱</span> 微信：cynthiakjj
+        </a>
+    </div>
+</section>
+
+</div>
+
+<footer>
+    <p>© 2026 陈莹璇 · 用 AI 重塑产品体验</p>
+</footer>
+
+<script>
+// ===== Particles Canvas =====
+const canvas = document.getElementById('particles-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+let mouseX = 0, mouseY = 0;
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class Particle {
+    constructor() {
+        this.reset();
+    }
+    reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 0.5;
+        this.speedX = (Math.random() - 0.5) * 0.5;
+        this.speedY = (Math.random() - 0.5) * 0.5;
+        this.opacity = Math.random() * 0.5 + 0.1;
+    }
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        const dx = mouseX - this.x;
+        const dy = mouseY - this.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 200) {
+            this.x -= dx * 0.002;
+            this.y -= dy * 0.002;
+        }
+        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+    }
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(99, 102, 241, ${this.opacity})`;
+        ctx.fill();
+    }
+}
+
+for (let i = 0; i < 100; i++) particles.push(new Particle());
+
+function drawLines() {
+    for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 150) {
+                ctx.beginPath();
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(particles[j].x, particles[j].y);
+                ctx.strokeStyle = `rgba(99, 102, 241, ${0.06 * (1 - dist / 150)})`;
+                ctx.stroke();
+            }
+        }
+    }
+}
+
+function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+    drawLines();
+    requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+document.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+});
+
+// ===== Typing Effect =====
+const texts = [
+    '产品经理 / PM / AI Product Manager',
+    '擅长把 AI 装进产品里',
+    '从 PRD 到落地的全流程选手',
+    '让技术有温度，让产品有灵魂'
+];
+let textIndex = 0, charIndex = 0, isDeleting = false;
+const typingEl = document.getElementById('typing-text');
+
+function typeEffect() {
+    const current = texts[textIndex];
+    if (!isDeleting) {
+        typingEl.textContent = current.substring(0, charIndex + 1);
+        charIndex++;
+        if (charIndex === current.length) {
+            setTimeout(() => { isDeleting = true; }, 2000);
+            setTimeout(typeEffect, 2000);
+            return;
+        }
+        setTimeout(typeEffect, 60);
+    } else {
+        typingEl.textContent = current.substring(0, charIndex - 1);
+        charIndex--;
+        if (charIndex === 0) {
+            isDeleting = false;
+            textIndex = (textIndex + 1) % texts.length;
+            setTimeout(typeEffect, 500);
+            return;
+        }
+        setTimeout(typeEffect, 30);
+    }
+}
+typeEffect();
+
+// ===== Navbar Hide/Show =====
+let lastScroll = 0;
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+    const current = window.scrollY;
+    if (current > lastScroll && current > 100) {
+        navbar.classList.add('hidden');
+    } else {
+        navbar.classList.remove('hidden');
+    }
+    lastScroll = current;
+});
+
+// ===== Scroll Reveal =====
+const revealElements = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+revealElements.forEach(el => observer.observe(el));
+</script>
+
 </body>
 </html>

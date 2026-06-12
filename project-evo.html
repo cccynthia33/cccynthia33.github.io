@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>易筑智能助手 - 陈莹璇 | AI 产品经理</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-primary: #0a0a0f; --bg-secondary: #12121a;
+            --bg-card: rgba(18,18,30,0.7);
+            --text-primary: #e8e8f0; --text-secondary: #9090a8;
+            --accent-1: #6366f1; --accent-2: #06b6d4; --accent-3: #a78bfa;
+            --gradient-1: linear-gradient(135deg,#6366f1,#06b6d4);
+            --gradient-2: linear-gradient(135deg,#a78bfa,#6366f1);
+            --border-color: rgba(99,102,241,0.15);
+            --glow: 0 0 40px rgba(99,102,241,0.15);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter',-apple-system,sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        .grid-bg {
+            position: fixed; top:0; left:0; width:100vw; height:100vh;
+            background-image: linear-gradient(rgba(99,102,241,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99,102,241,0.03) 1px, transparent 1px);
+            background-size: 60px 60px; z-index: 0; pointer-events: none;
+        }
+
+        /* Navigation */
+        .top-bar {
+            position: fixed; top:0; left:0; right:0; z-index:100;
+            height: 56px;
+            display: flex; align-items: center;
+            backdrop-filter: blur(20px);
+            background: rgba(10,10,15,0.6);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 2rem;
+        }
+        .top-bar a {
+            color: var(--text-secondary); text-decoration: none;
+            font-size: 0.875rem; font-weight: 500;
+            display: flex; align-items: center; gap: 0.5rem;
+            transition: color 0.3s;
+        }
+        .top-bar a:hover { color: var(--text-primary); }
+
+        .main { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+        /* Hero */
+        .project-hero {
+            padding: 7rem 0 3rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 3rem;
+        }
+        .project-hero .breadcrumb {
+            font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1.5rem;
+        }
+        .project-hero .breadcrumb a { color: var(--accent-2); text-decoration: none; }
+        .project-hero .breadcrumb a:hover { text-decoration: underline; }
+        .project-hero .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.75rem; font-weight: 600;
+            background: rgba(99,102,241,0.1);
+            color: var(--accent-3);
+            margin-bottom: 1rem;
+        }
+        .project-hero h1 {
+            font-size: clamp(2rem,4vw,3rem);
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+        }
+        .project-hero h1 .gradient-text {
+            background: var(--gradient-1);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .project-hero .subtitle {
+            font-size: 1.1rem; color: var(--text-secondary);
+            max-width: 700px; line-height: 1.7;
+        }
+        .project-meta {
+            display: flex; gap: 2rem; flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+        .project-meta .meta-item {
+            display: flex; align-items: center; gap: 0.5rem;
+            font-size: 0.85rem; color: var(--text-secondary);
+        }
+        .project-meta .meta-item strong { color: var(--text-primary); }
+
+        /* Section */
+        .detail-section {
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .detail-section:last-of-type { border-bottom: none; }
+        .detail-section h2 {
+            font-size: 1.5rem; font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex; align-items: center; gap: 0.75rem;
+        }
+        .detail-section h2 .accent { color: var(--accent-2); }
+        .detail-section h3 {
+            font-size: 1.1rem; font-weight: 600;
+            margin: 1.5rem 0 0.75rem;
+            color: var(--accent-3);
+        }
+        .detail-section p, .detail-section li {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            margin-bottom: 0.75rem;
+        }
+        .detail-section ul, .detail-section ol { padding-left: 1.5rem; }
+        .detail-section strong { color: var(--text-primary); }
+
+        /* PRD Quote Block */
+        .prd-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-left: 3px solid var(--accent-1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .prd-block .prd-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--accent-2);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .metric-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+        .metric-card .value {
+            font-size: 1.75rem; font-weight: 800;
+            background: var(--gradient-2);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .metric-card .label {
+            font-size: 0.8rem; color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .feature-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+        }
+        .feature-item .icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .feature-item h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; }
+        .feature-item p { font-size: 0.85rem; margin-bottom: 0; }
+
+        /* Screenshots Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .gallery-item {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+        }
+        .gallery-item img {
+            width: 100%; height: auto;
+            display: block;
+        }
+        .gallery-item .caption {
+            padding: 0.75rem 1rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Tech Tags */
+        .tech-tags {
+            display: flex; flex-wrap: wrap; gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        .tech-tags span {
+            padding: 0.3rem 0.9rem;
+            border-radius: 100px;
+            font-size: 0.8rem; font-weight: 500;
+            background: rgba(99,102,241,0.08);
+            color: var(--accent-3);
+            border: 1px solid rgba(99,102,241,0.1);
+        }
+
+        /* Table */
+        .spec-table {
+            width: 100%; border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+        .spec-table th, .spec-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .spec-table th {
+            color: var(--accent-2);
+            font-weight: 600;
+            background: rgba(99,102,241,0.05);
+        }
+        .spec-table td { color: var(--text-secondary); }
+
+        /* Roadmap */
+        .roadmap {
+            display: flex; flex-direction: column; gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .roadmap-item {
+            display: flex; gap: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+        }
+        .roadmap-item .phase {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--accent-2);
+            min-width: 80px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .roadmap-item .phase-desc h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.3rem; }
+        .roadmap-item .phase-desc p { font-size: 0.85rem; margin-bottom: 0; }
+        .roadmap-item .phase-desc .done { color: #10b981; }
+        .roadmap-item .phase-desc .todo { color: var(--text-secondary); }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .feature-grid { grid-template-columns: 1fr; }
+            .gallery { grid-template-columns: 1fr; }
+            .project-hero { padding-top: 5rem; }
+            .main { padding: 0 1.25rem; }
+            .roadmap-item { flex-direction: column; gap: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<div class="top-bar">
+    <a href="portfolio.html">← 返回作品集</a>
+</div>
+
+<div class="main">
+
+<!-- Hero -->
+<div class="project-hero">
+    <div class="breadcrumb"><a href="portfolio.html">作品集</a> / 易筑智能助手</div>
+    <div class="badge">🤖 AI 产品 · 企业级</div>
+    <h1>易筑智能助手 <span class="gradient-text">Evo AI Assistant</span></h1>
+    <p class="subtitle">
+        面向建筑工程行业的 AI 智能助手，深度嵌入易筑 Evo 企业管理系统，
+        基于 RAG 技术为 200+ 功能模块提供自然语言问答、深度链接跳转和多步骤流程引导。
+    </p>
+    <div class="project-meta">
+        <div class="meta-item">📅 <strong>2026</strong></div>
+        <div class="meta-item">🏗️ <strong>建筑工程 · 企业管理</strong></div>
+        <div class="meta-item">📋 <strong>版本 V2.0</strong></div>
+        <div class="meta-item">👤 <strong>产品经理 · 全流程</strong></div>
+    </div>
+</div>
+
+<!-- Problem -->
+<div class="detail-section">
+    <h2><span class="accent">01</span> 问题与背景</h2>
+    <p>
+        易筑 Evo 是一套覆盖营销、设计、施工、行政、人事、财务、资产等
+        <strong>200+ 功能模块</strong>的综合性企业管理系统。随着系统功能持续丰富，用户面临严峻挑战：
+    </p>
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <div class="value">2-4周</div>
+            <div class="label">新员工上手时间</div>
+        </div>
+        <div class="metric-card">
+            <div class="value">50+/周</div>
+            <div class="label">同类操作咨询工单</div>
+        </div>
+        <div class="metric-card">
+            <div class="value">200+</div>
+            <div class="label">功能模块查找困难</div>
+        </div>
+    </div>
+    <ul>
+        <li><strong>学习成本高</strong> — 新员工需数周熟悉系统，培训依赖老员工传帮带</li>
+        <li><strong>操作效率低</strong> — 跨部门流程需打开多个页面，频繁切换查找功能入口</li>
+        <li><strong>知识分散</strong> — 操作手册、制度发文、公告、培训资料分散各处</li>
+        <li><strong>问题重复</strong> — 客服团队每周 50+ 同类操作问题重复解答</li>
+    </ul>
+</div>
+
+<!-- Solution & Goals -->
+<div class="detail-section">
+    <h2><span class="accent">02</span> 产品目标</h2>
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <div class="value">80%+</div>
+            <div class="label">自助解决率</div>
+        </div>
+        <div class="metric-card">
+            <div class="value">↓50%</div>
+            <div class="label">单次操作耗时</div>
+        </div>
+        <div class="metric-card">
+            <div class="value">↓40%</div>
+            <div class="label">客服工单量</div>
+        </div>
+        <div class="metric-card">
+            <div class="value">1周</div>
+            <div class="label">新员工上手时间</div>
+        </div>
+        <div class="metric-card">
+            <div class="value">60%+</div>
+            <div class="label">月活跃使用率</div>
+        </div>
+    </div>
+</div>
+
+<!-- Core Features -->
+<div class="detail-section">
+    <h2><span class="accent">03</span> 核心功能</h2>
+
+    <h3>🗣️ 核心问答</h3>
+    <p>用户用自然语言提问操作问题，AI 秒级响应并附带深度链接直达功能页面。</p>
+    <div class="prd-block">
+        <div class="prd-label">💬 对话示例</div>
+        <p style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;margin-bottom:0;">
+用户：怎么申请出差？<br/><br/>
+AI：我来帮您分步骤完成出差申请 👇<br/><br/>
+① 进入行政门户 → <span style="color:var(--accent-2);">[去行政门户]</span><br/>
+② 发起出差申请 → <span style="color:var(--accent-2);">[去新建出差申请]</span><br/>
+③ 填写申请表单（事由/天数/目的地/费用）<br/>
+④ 等待审批 → <span style="color:var(--accent-2);">[查看审批状态]</span>
+        </p>
+    </div>
+
+    <h3>🧭 智能引导</h3>
+    <p>AI 分步骤引导用户完成跨部门流程，上下文感知当前页面提供精准帮助。</p>
+
+    <h3>📚 知识管理</h3>
+    <p>管理员后台管理知识库文档，支持批量上传操作手册、制度文档，查看用户常见问题统计。</p>
+
+    <h3>🔄 人机协作</h3>
+    <p>用户可对回答反馈"有用/无用"，不准确时可一键转人工客服并附带对话上下文。</p>
+
+    <h3>📊 数据查询与图表</h3>
+    <p>NL2SQL 能力支持自然语言查询业务数据："上季度营销立项有多少？"，并生成 ECharts 图表。</p>
+
+    <div class="feature-grid">
+        <div class="feature-item">
+            <div class="icon">⚡</div>
+            <h4>首字响应 &lt; 3s</h4>
+            <p>流式输出 + 缓存高频问题，用户体验流畅</p>
+        </div>
+        <div class="feature-item">
+            <div class="icon">🔗</div>
+            <h4>深度链接跳转</h4>
+            <p>AI 回答中附带可点击链接，一键到达操作位置</p>
+        </div>
+        <div class="feature-item">
+            <div class="icon">📝</div>
+            <h4>字段级 AI 帮助</h4>
+            <p>填表单时遇到不懂的字段可直接问 AI</p>
+        </div>
+        <div class="feature-item">
+            <div class="icon">🔔</div>
+            <h4>主动提醒</h4>
+            <p>合同到期、证书到期等关键节点主动推送</p>
+        </div>
+    </div>
+</div>
+
+<!-- Screenshots -->
+<div class="detail-section">
+    <h2><span class="accent">04</span> 项目截图</h2>
+    <div class="gallery">
+        <div class="gallery-item">
+            <img src="assets/evo/screenshot-1.png" alt="易筑智能助手截图1" loading="lazy" />
+            <div class="caption">AI 助手对话界面 - 自然语言问答</div>
+        </div>
+        <div class="gallery-item">
+            <img src="assets/evo/screenshot-2.png" alt="易筑智能助手截图2" loading="lazy" />
+            <div class="caption">深度链接跳转 - 一键到达操作页面</div>
+        </div>
+        <div class="gallery-item">
+            <img src="assets/evo/screenshot-3.png" alt="易筑智能助手截图3" loading="lazy" />
+            <div class="caption">多步骤流程引导 - 分步完成操作</div>
+        </div>
+        <div class="gallery-item">
+            <img src="assets/evo/screenshot-4.png" alt="易筑智能助手截图4" loading="lazy" />
+            <div class="caption">上下文感知 - 根据当前页面推荐问题</div>
+        </div>
+        <div class="gallery-item">
+            <img src="assets/evo/screenshot-5.png" alt="易筑智能助手截图5" loading="lazy" />
+            <div class="caption">知识库管理后台 - 文档上传与管理</div>
+        </div>
+        <div class="gallery-item">
+            <img src="assets/evo/screenshot-6.png" alt="易筑智能助手截图6" loading="lazy" />
+            <div class="caption">数据查询 - NL2SQL 自然语言查数据</div>
+        </div>
+        <div class="gallery-item">
+            <img src="assets/evo/screenshot-7.png" alt="易筑智能助手截图7" loading="lazy" />
+            <div class="caption">运营数据看板 - 用户反馈与统计</div>
+        </div>
+    </div>
+</div>
+
+<!-- Tech Stack -->
+<div class="detail-section">
+    <h2><span class="accent">05</span> 技术架构</h2>
+    <div class="tech-tags">
+        <span>RAG 架构</span>
+        <span>LLM (大语言模型)</span>
+        <span>向量数据库</span>
+        <span>深度链接</span>
+        <span>NL2SQL</span>
+        <span>流式输出 (SSE)</span>
+        <span>ECharts 图表</span>
+        <span>知识库管理</span>
+        <span>用户反馈系统</span>
+        <span>数据埋点</span>
+    </div>
+    <h3>接口设计</h3>
+    <table class="spec-table">
+        <thead><tr><th>接口</th><th>方法</th><th>说明</th></tr></thead>
+        <tbody>
+            <tr><td>/chat-messages</td><td>POST</td><td>发送用户消息，接收 AI 回复</td></tr>
+            <tr><td>/feedback</td><td>POST</td><td>用户对回答进行反馈</td></tr>
+            <tr><td>/conversation/history</td><td>GET</td><td>获取对话历史</td></tr>
+            <tr><td>/documents/upload</td><td>POST</td><td>上传知识库文档</td></tr>
+            <tr><td>/search/related</td><td>POST</td><td>根据当前页面推荐相关问题</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Roadmap -->
+<div class="detail-section">
+    <h2><span class="accent">06</span> 迭代路线图</h2>
+    <div class="roadmap">
+        <div class="roadmap-item">
+            <div class="phase">Phase 1<br/><span style="font-size:0.75rem;color:var(--text-secondary);">MVP · 6周</span></div>
+            <div class="phase-desc">
+                <h4>✅ 核心问答链路跑通</h4>
+                <p>对话服务搭建（RAG） · 知识库构建 · 全局浮窗入口 · 深度链接跳转 · 基础问答统计</p>
+            </div>
+        </div>
+        <div class="roadmap-item">
+            <div class="phase">Phase 2<br/><span style="font-size:0.75rem;color:var(--text-secondary);">增强 · 4周</span></div>
+            <div class="phase-desc">
+                <h4>上下文感知 & 反馈闭环</h4>
+                <p>上下文感知（当前页面→快捷提问） · 多步骤流程引导 · 用户反馈机制 · 知识库管理后台 · 运营数据看板</p>
+            </div>
+        </div>
+        <div class="roadmap-item">
+            <div class="phase">Phase 3<br/><span style="font-size:0.75rem;color:var(--text-secondary);">智能 · 6周</span></div>
+            <div class="phase-desc">
+                <h4>数据查询 & 主动服务</h4>
+                <p>NL2SQL 数据查询 · 图表生成（ECharts） · 到期提醒/主动预警 · 审批 AI 建议 · 新功能引导推送</p>
+            </div>
+        </div>
+        <div class="roadmap-item">
+            <div class="phase">Phase 4<br/><span style="font-size:0.75rem;color:var(--text-secondary);">生态 · 持续</span></div>
+            <div class="phase-desc">
+                <h4>深度融入业务</h4>
+                <p>表单级 AI 帮助 · 多 Agent 编排 · 招标文件智能解析 · 智能合同审查 · 行业知识库共享</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PRD Document Link -->
+<div class="detail-section">
+    <h2><span class="accent">07</span> PRD 文档</h2>
+    <p>完整的 PRD 文档包含：用户画像（P0-P3四级）、18条用户故事、功能规格、交互流程设计、接口定义、数据埋点方案、非功能需求（响应时间/并发/准确率/安全等）、竞品对标分析（飞书智能伙伴/钉钉AI/Intercom Fin/Udesk）、风险应对策略。</p>
+    <p style="margin-top:1rem;">
+        <a href="prd/易筑智能助手AI产品PRD.md" style="color:var(--accent-2);text-decoration:none;font-weight:600;" target="_blank">
+            📄 查看完整 PRD 文档（Markdown） →
+        </a>
+    </p>
+</div>
+
+</div>
+
+<footer>
+    <p>© 2026 陈莹璇 · <a href="portfolio.html" style="color:var(--accent-2);text-decoration:none;">返回作品集</a></p>
+</footer>
+
+</body>
+</html>

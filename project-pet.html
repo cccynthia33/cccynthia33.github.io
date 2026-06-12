@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>宠宠记事本 - 陈莹璇 | AI 产品经理</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-primary: #0a0a0f; --bg-secondary: #12121a;
+            --bg-card: rgba(18,18,30,0.7);
+            --text-primary: #e8e8f0; --text-secondary: #9090a8;
+            --accent-1: #f59e0b; --accent-2: #f97316; --accent-3: #fb923c;
+            --gradient-1: linear-gradient(135deg,#f59e0b,#f97316);
+            --gradient-2: linear-gradient(135deg,#fb923c,#f59e0b);
+            --border-color: rgba(245,158,11,0.15);
+            --glow: 0 0 40px rgba(245,158,11,0.15);
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
+        body {
+            font-family:'Inter',-apple-system,sans-serif;
+            background:var(--bg-primary); color:var(--text-primary);
+            line-height:1.6;
+        }
+        .grid-bg {
+            position:fixed; top:0; left:0; width:100vw; height:100vh;
+            background-image:linear-gradient(rgba(245,158,11,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(245,158,11,0.03) 1px, transparent 1px);
+            background-size:60px 60px; z-index:0; pointer-events:none;
+        }
+        .top-bar {
+            position:fixed; top:0; left:0; right:0; z-index:100;
+            height:56px; display:flex; align-items:center;
+            backdrop-filter:blur(20px); background:rgba(10,10,15,0.6);
+            border-bottom:1px solid var(--border-color); padding:0 2rem;
+        }
+        .top-bar a {
+            color:var(--text-secondary); text-decoration:none;
+            font-size:0.875rem; font-weight:500;
+            display:flex; align-items:center; gap:0.5rem; transition:color 0.3s;
+        }
+        .top-bar a:hover { color:var(--text-primary); }
+        .main { position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:0 2rem; }
+
+        .project-hero {
+            padding:7rem 0 3rem; border-bottom:1px solid var(--border-color); margin-bottom:3rem;
+        }
+        .project-hero .breadcrumb { font-size:0.8rem; color:var(--text-secondary); margin-bottom:1.5rem; }
+        .project-hero .breadcrumb a { color:var(--accent-2); text-decoration:none; }
+        .project-hero .breadcrumb a:hover { text-decoration:underline; }
+        .project-hero .badge {
+            display:inline-block; padding:0.25rem 0.75rem; border-radius:100px;
+            font-size:0.75rem; font-weight:600;
+            background:rgba(245,158,11,0.1); color:var(--accent-3); margin-bottom:1rem;
+        }
+        .project-hero h1 { font-size:clamp(2rem,4vw,3rem); font-weight:800; margin-bottom:0.75rem; }
+        .project-hero h1 .gradient-text {
+            background:var(--gradient-1);
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+        }
+        .project-hero .subtitle {
+            font-size:1.1rem; color:var(--text-secondary); max-width:700px; line-height:1.7;
+        }
+        .project-meta {
+            display:flex; gap:2rem; flex-wrap:wrap; margin-top:1.5rem;
+        }
+        .project-meta .meta-item {
+            display:flex; align-items:center; gap:0.5rem;
+            font-size:0.85rem; color:var(--text-secondary);
+        }
+        .project-meta .meta-item strong { color:var(--text-primary); }
+
+        .detail-section { padding:3rem 0; border-bottom:1px solid var(--border-color); }
+        .detail-section:last-of-type { border-bottom:none; }
+        .detail-section h2 {
+            font-size:1.5rem; font-weight:700; margin-bottom:1.5rem;
+            display:flex; align-items:center; gap:0.75rem;
+        }
+        .detail-section h2 .accent { color:var(--accent-2); }
+        .detail-section h3 { font-size:1.1rem; font-weight:600; margin:1.5rem 0 0.75rem; color:var(--accent-3); }
+        .detail-section p, .detail-section li {
+            color:var(--text-secondary); font-size:0.95rem; line-height:1.8; margin-bottom:0.75rem;
+        }
+        .detail-section ul, .detail-section ol { padding-left:1.5rem; }
+        .detail-section strong { color:var(--text-primary); }
+
+        .prd-block {
+            background:var(--bg-card); border:1px solid var(--border-color);
+            border-left:3px solid var(--accent-1); border-radius:12px;
+            padding:1.5rem; margin:1.5rem 0;
+        }
+        .prd-block .prd-label {
+            font-size:0.75rem; font-weight:600; text-transform:uppercase;
+            letter-spacing:0.05em; color:var(--accent-2); margin-bottom:0.5rem;
+        }
+
+        .metrics-grid {
+            display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+            gap:1rem; margin:1.5rem 0;
+        }
+        .metric-card {
+            background:var(--bg-card); border:1px solid var(--border-color);
+            border-radius:12px; padding:1.25rem; text-align:center;
+        }
+        .metric-card .value {
+            font-size:1.5rem; font-weight:800;
+            background:var(--gradient-2);
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+        }
+        .metric-card .label { font-size:0.8rem; color:var(--text-secondary); margin-top:0.25rem; }
+
+        .feature-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1.5rem 0; }
+        .feature-item {
+            background:var(--bg-card); border:1px solid var(--border-color);
+            border-radius:12px; padding:1.25rem;
+        }
+        .feature-item .icon { font-size:1.5rem; margin-bottom:0.5rem; }
+        .feature-item h4 { font-size:0.95rem; font-weight:600; margin-bottom:0.4rem; }
+        .feature-item p { font-size:0.85rem; margin-bottom:0; }
+
+        .gallery {
+            display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+            gap:1rem; margin:1.5rem 0;
+        }
+        .gallery-item {
+            border-radius:12px; overflow:hidden;
+            border:1px solid var(--border-color); background:var(--bg-card);
+        }
+        .gallery-item img {
+            width:100%; height:auto; display:block;
+        }
+        .gallery-item .caption { padding:0.75rem 1rem; font-size:0.8rem; color:var(--text-secondary); }
+
+        .tech-tags { display:flex; flex-wrap:wrap; gap:0.5rem; margin:1rem 0; }
+        .tech-tags span {
+            padding:0.3rem 0.9rem; border-radius:100px; font-size:0.8rem; font-weight:500;
+            background:rgba(245,158,11,0.08); color:var(--accent-3);
+            border:1px solid rgba(245,158,11,0.1);
+        }
+
+        .data-model {
+            background:var(--bg-card); border:1px solid var(--border-color);
+            border-radius:12px; padding:1.5rem; margin:1.5rem 0;
+            font-family:'JetBrains Mono',monospace; font-size:0.8rem; line-height:1.6;
+            overflow-x:auto;
+        }
+        .data-model .comment { color:#6b7280; }
+        .data-model .key { color:var(--accent-2); }
+        .data-model .string { color:#10b981; }
+        .data-model .number { color:#f59e0b; }
+
+        .page-structure {
+            display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+            gap:0.75rem; margin:1.5rem 0;
+        }
+        .page-card {
+            background:var(--bg-card); border:1px solid var(--border-color);
+            border-radius:10px; padding:1rem; text-align:center;
+        }
+        .page-card .emoji { font-size:1.5rem; margin-bottom:0.3rem; }
+        .page-card h4 { font-size:0.9rem; font-weight:600; }
+        .page-card p { font-size:0.75rem; margin-bottom:0; }
+
+        footer {
+            text-align:center; padding:2rem; color:var(--text-secondary);
+            font-size:0.8rem; border-top:1px solid var(--border-color); margin-top:2rem;
+        }
+
+        @media (max-width:768px) {
+            .feature-grid { grid-template-columns:1fr; }
+            .project-hero { padding-top:5rem; }
+            .main { padding:0 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<div class="top-bar">
+    <a href="portfolio.html">← 返回作品集</a>
+</div>
+
+<div class="main">
+
+<div class="project-hero">
+    <div class="breadcrumb"><a href="portfolio.html">作品集</a> / 宠宠记事本</div>
+    <div class="badge">🐾 微信小程序 · 工具</div>
+    <h1>宠宠记事本 <span class="gradient-text">Pet Care Notebook</span></h1>
+    <p class="subtitle">
+        为多宠家庭设计的极简备忘录式微信小程序。多宠物档案管理、喂食/排泄快速记录、
+        健康提醒、今日概况看板。单用户免登录，本地存储即开即用。
+    </p>
+    <div class="project-meta">
+        <div class="meta-item">📅 <strong>2026</strong></div>
+        <div class="meta-item">📱 <strong>微信小程序</strong></div>
+        <div class="meta-item">📋 <strong>版本 V1.0 (MVP)</strong></div>
+        <div class="meta-item">👤 <strong>产品经理 · 全流程</strong></div>
+    </div>
+</div>
+
+<!-- Problem -->
+<div class="detail-section">
+    <h2><span class="accent">01</span> 问题与洞察</h2>
+    <p>
+        多宠家庭在日常生活中面临大量琐碎的宠物看护信息管理需求：每只宠物的喂食品牌和口味偏好、
+        排泄是否正常、驱虫和疫苗是否按时等。仅靠大脑记忆或零散的聊天记录很容易遗忘或混淆，
+        尤其是当家中同时饲养猫和狗时，不同物种的喂养习惯和健康管理周期差异更大。
+    </p>
+    <p>
+        市面上缺少一款足够轻量、专注于<strong>"多宠日常记录"</strong>而非"社交/电商/医疗"的工具。
+        用户需要一个开箱即用、交互简洁的备忘录式应用，能够快速记录每只宠物的日常，
+        并在首页一目了然地看到今日概况。
+    </p>
+    <div class="prd-block">
+        <div class="prd-label">🎯 核心设计原则</div>
+        <p style="margin-bottom:0.3rem;">✅ <strong>单用户免登录</strong> — 微信身份直接使用，无注册流程</p>
+        <p style="margin-bottom:0.3rem;">✅ <strong>多宠切换</strong> — 首页快速切换，数据按宠物隔离</p>
+        <p style="margin-bottom:0.3rem;">✅ <strong>快速记录</strong> — 喂食和排泄两步内完成</p>
+        <p style="margin-bottom:0.3rem;">✅ <strong>今日概况</strong> — 喂食/排泄次数、待办提醒一目了然</p>
+        <p style="margin-bottom:0;">✅ <strong>本地存储</strong> — 即开即用，无需网络</p>
+    </div>
+</div>
+
+<!-- Pages -->
+<div class="detail-section">
+    <h2><span class="accent">02</span> 页面结构</h2>
+    <div class="page-structure">
+        <div class="page-card">
+            <div class="emoji">🏠</div>
+            <h4>首页</h4>
+            <p>宠物切换栏 · 今日统计 · 快捷记录入口 · 即将提醒</p>
+        </div>
+        <div class="page-card">
+            <div class="emoji">🍖</div>
+            <h4>喂食记录</h4>
+            <p>品牌 · 口味 · 喜好程度 · 时间 · 备注</p>
+        </div>
+        <div class="page-card">
+            <div class="emoji">💩</div>
+            <h4>排泄记录</h4>
+            <p>便便状态 · 尿尿状态 · 时间 · 备注</p>
+        </div>
+        <div class="page-card">
+            <div class="emoji">📋</div>
+            <h4>历史记录</h4>
+            <p>按宠物/日期筛选 · 混合时间线</p>
+        </div>
+        <div class="page-card">
+            <div class="emoji">🐱</div>
+            <h4>宠物管理</h4>
+            <p>添加/编辑/删除宠物档案</p>
+        </div>
+        <div class="page-card">
+            <div class="emoji">⏰</div>
+            <h4>提醒管理</h4>
+            <p>驱虫 · 疫苗 · 洗澡 · 滑动删除</p>
+        </div>
+        <div class="page-card">
+            <div class="emoji">⚙️</div>
+            <h4>管理页</h4>
+            <p>快捷入口汇总</p>
+        </div>
+        <div class="page-card">
+            <div class="emoji">👤</div>
+            <h4>我的</h4>
+            <p>数据统计 · 关于信息</p>
+        </div>
+    </div>
+</div>
+
+<!-- Features -->
+<div class="detail-section">
+    <h2><span class="accent">03</span> 核心功能</h2>
+    <div class="feature-grid">
+        <div class="feature-item">
+            <div class="icon">🔄</div>
+            <h4>多宠一键切换</h4>
+            <p>首页顶部切换不同宠物，数据完全隔离，每只宠物有专属主题色</p>
+        </div>
+        <div class="feature-item">
+            <div class="icon">📊</div>
+            <h4>今日概况看板</h4>
+            <p>喂食次数、排泄次数、待办提醒一目了然，掌握每日照顾情况</p>
+        </div>
+        <div class="feature-item">
+            <div class="icon">⚡</div>
+            <h4>两步快速记录</h4>
+            <p>喂食和排泄记录均可在两步内完成，打开即记，用完即走</p>
+        </div>
+        <div class="feature-item">
+            <div class="icon">😋</div>
+            <h4>Emoji 喜好标记</h4>
+            <p>通过 emoji 快速标记喜欢程度（喜欢/一般/不喜欢），直观追踪偏食</p>
+        </div>
+        <div class="feature-item">
+            <div class="icon">🔔</div>
+            <h4>定期提醒</h4>
+            <p>驱虫、疫苗、洗澡等周期性提醒，开关控制，滑动删除</p>
+        </div>
+        <div class="feature-item">
+            <div class="icon">📈</div>
+            <h4>数据统计</h4>
+            <p>"我的"页面展示宠物数量、总记录数、提醒数量的整体概览</p>
+        </div>
+    </div>
+</div>
+
+<!-- Data Model -->
+<div class="detail-section">
+    <h2><span class="accent">04</span> 数据模型设计</h2>
+    <p>采用适合小程序端内存操作的扁平数组结构，所有数据通过 <code>app.globalData</code> 统一管理。</p>
+    <div class="data-model">
+<span class="comment">// 宠物档案</span>
+{ id: <span class="number">1700000000</span>, name: <span class="string">"嘟嘟"</span>,
+  emoji: <span class="string">"🐱"</span>, type: <span class="string">"cat"</span>,
+  color: <span class="string">"#FFB07C"</span>, breed: <span class="string">"橘猫"</span>,
+  birthDate: <span class="string">"2023-06-01"</span> }
+
+<span class="comment">// 喂食记录 (type: "feed")</span>
+{ id: <span class="number">1700000001</span>, petId: <span class="number">1700000000</span>,
+  type: <span class="string">"feed"</span>, date: <span class="string">"2026-06-12"</span>,
+  time: <span class="string">"08:30"</span>, brand: <span class="string">"皇家"</span>,
+  flavor: <span class="string">"鸡肉味"</span>,
+  likeLevel: <span class="string">"like"</span>, note: <span class="string">"全吃光"</span> }
+
+<span class="comment">// 排泄记录 (type: "excretion")</span>
+{ id: <span class="number">1700000002</span>, petId: <span class="number">1700000000</span>,
+  type: <span class="string">"excretion"</span>, date: <span class="string">"2026-06-12"</span>,
+  time: <span class="string">"09:00"</span>,
+  poopType: <span class="string">"normal"</span>, peeType: <span class="string">"normal"</span> }
+
+<span class="comment">// 提醒事项</span>
+{ id: <span class="number">1700000003</span>, petId: <span class="number">1700000000</span>,
+  type: <span class="string">"deworm"</span>, title: <span class="string">"体内驱虫"</span>,
+  time: <span class="string">"20:00"</span>, repeat: <span class="string">"monthly"</span>,
+  enabled: <span class="boolean">true</span> }
+    </div>
+</div>
+
+<!-- Tech & Design -->
+<div class="detail-section">
+    <h2><span class="accent">05</span> 技术栈与设计系统</h2>
+    <div class="tech-tags">
+        <span>微信小程序</span>
+        <span>JavaScript (ES6+)</span>
+        <span>WXML + WXSS</span>
+        <span>本地缓存 Storage</span>
+        <span>自定义导航栏</span>
+        <span>组件化 Tab-bar</span>
+    </div>
+    <h3>🎨 设计系统</h3>
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <div class="value" style="font-size:1rem;">#FF8C42</div>
+            <div class="label">主色 · 暖橙</div>
+        </div>
+        <div class="metric-card">
+            <div class="value" style="font-size:1rem;">#FFF8F2</div>
+            <div class="label">背景 · 柔和米白</div>
+        </div>
+        <div class="metric-card">
+            <div class="value" style="font-size:1rem;">#FFB07C</div>
+            <div class="label">宠物色 · 橘</div>
+        </div>
+    </div>
+    <h3>📐 架构决策</h3>
+    <ul>
+        <li><strong>全局数据层</strong> — 所有数据集中在 <code>app.globalData</code>，通过统一 save/get 方法读写</li>
+        <li><strong>单一 records 数组</strong> — 喂食和排泄共用 records 数组，type 字段区分，简化查询逻辑</li>
+        <li><strong>路由设计</strong> — 底部 Tab 用 redirectTo 避免页面栈堆积，表单页用 navigateTo 入栈</li>
+        <li><strong>持久化</strong> — wx.setStorageSync 在每次数据变更时同步写入，启动时从缓存恢复</li>
+    </ul>
+</div>
+
+<!-- Screens -->
+<div class="detail-section">
+    <h2><span class="accent">06</span> 产品截图</h2>
+    <div class="gallery">
+        <div class="gallery-item">
+            <img src="assets/pet/ScreenShot_1.png" alt="宠宠记事本截图1" loading="lazy" />
+            <div class="caption">首页 - 今日概况看板</div>
+        </div>
+        <div class="gallery-item">
+            <img src="assets/pet/ScreenShot_2.png" alt="宠宠记事本截图2" loading="lazy" />
+            <div class="caption">喂食记录 - 品牌/口味/喜好</div>
+        </div>
+        <div class="gallery-item">
+            <img src="assets/pet/ScreenShot_3.png" alt="宠宠记事本截图3" loading="lazy" />
+            <div class="caption">排泄记录 - 状态追踪</div>
+        </div>
+        <div class="gallery-item">
+            <img src="assets/pet/ScreenShot_4.png" alt="宠宠记事本截图4" loading="lazy" />
+            <div class="caption">提醒管理 - 定期提醒</div>
+        </div>
+        <div class="gallery-item">
+            <img src="assets/pet/ScreenShot_5.png" alt="宠宠记事本截图5" loading="lazy" />
+            <div class="caption">宠物管理 - 多宠资料与档案</div>
+        </div>
+    </div>
+</div>
+
+<!-- PRD -->
+<div class="detail-section">
+    <h2><span class="accent">07</span> PRD 文档</h2>
+    <p>完整的 PRD 包含 20 条用户故事（覆盖核心问答、快速记录、提醒、数据统计等场景）、详细的数据模型定义、页面模块说明、UI 设计系统规范、测试策略及 V2.0 规划（数据备份导出、健康报告、体重记录、云开发迁移等）。</p>
+    <p style="margin-top:1rem;">
+        <a href="prd/宠宠记事本PRD.md" style="color:var(--accent-2);text-decoration:none;font-weight:600;" target="_blank">
+            📄 查看完整 PRD 文档（Markdown） →
+        </a>
+    </p>
+</div>
+
+</div>
+
+<footer>
+    <p>© 2026 陈莹璇 · <a href="portfolio.html" style="color:var(--accent-2);text-decoration:none;">返回作品集</a></p>
+</footer>
+
+</body>
+</html>

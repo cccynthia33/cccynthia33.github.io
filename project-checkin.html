@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>废柴打卡器 - 陈莹璇 | AI 产品经理</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-primary: #0a0a0f; --bg-secondary: #12121a;
+            --bg-card: rgba(18,18,30,0.7);
+            --text-primary: #e8e8f0; --text-secondary: #9090a8;
+            --accent-1: #3b82f6; --accent-2: #3A99F2; --accent-3: #60a5fa;
+            --gradient-1: linear-gradient(135deg,#3b82f6,#06b6d4);
+            --gradient-2: linear-gradient(135deg,#60a5fa,#3b82f6);
+            --border-color: rgba(59,130,246,0.15);
+            --glow: 0 0 40px rgba(59,130,246,0.15);
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
+        body {
+            font-family:'Inter',-apple-system,sans-serif;
+            background:var(--bg-primary); color:var(--text-primary);
+            line-height:1.6;
+        }
+        .grid-bg {
+            position:fixed; top:0; left:0; width:100vw; height:100vh;
+            background-image:linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
+            background-size:60px 60px; z-index:0; pointer-events:none;
+        }
+        .top-bar {
+            position:fixed; top:0; left:0; right:0; z-index:100;
+            height:56px; display:flex; align-items:center;
+            backdrop-filter:blur(20px); background:rgba(10,10,15,0.6);
+            border-bottom:1px solid var(--border-color); padding:0 2rem;
+        }
+        .top-bar a {
+            color:var(--text-secondary); text-decoration:none;
+            font-size:0.875rem; font-weight:500;
+            display:flex; align-items:center; gap:0.5rem; transition:color 0.3s;
+        }
+        .top-bar a:hover { color:var(--text-primary); }
+        .main { position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:0 2rem; }
+
+        .project-hero {
+            padding:7rem 0 3rem; border-bottom:1px solid var(--border-color); margin-bottom:3rem;
+        }
+        .project-hero .breadcrumb { font-size:0.8rem; color:var(--text-secondary); margin-bottom:1.5rem; }
+        .project-hero .breadcrumb a { color:var(--accent-2); text-decoration:none; }
+        .project-hero .breadcrumb a:hover { text-decoration:underline; }
+        .project-hero .badge {
+            display:inline-block; padding:0.25rem 0.75rem; border-radius:100px;
+            font-size:0.75rem; font-weight:600;
+            background:rgba(59,130,246,0.1); color:var(--accent-3); margin-bottom:1rem;
+        }
+        .project-hero h1 { font-size:clamp(2rem,4vw,3rem); font-weight:800; margin-bottom:0.75rem; }
+        .project-hero h1 .gradient-text {
+            background:var(--gradient-1);
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+        }
+        .project-hero .subtitle {
+            font-size:1.1rem; color:var(--text-secondary); max-width:700px; line-height:1.7;
+        }
+        .project-meta {
+            display:flex; gap:2rem; flex-wrap:wrap; margin-top:1.5rem;
+        }
+        .project-meta .meta-item {
+            display:flex; align-items:center; gap:0.5rem;
+            font-size:0.85rem; color:var(--text-secondary);
+        }
+        .project-meta .meta-item strong { color:var(--text-primary); }
+
+        .detail-section { padding:3rem 0; border-bottom:1px solid var(--border-color); }
+        .detail-section:last-of-type { border-bottom:none; }
+        .detail-section h2 {
+            font-size:1.5rem; font-weight:700; margin-bottom:1.5rem;
+            display:flex; align-items:center; gap:0.75rem;
+        }
+        .detail-section h2 .accent { color:var(--accent-2); }
+        .detail-section h3 { font-size:1.1rem; font-weight:600; margin:1.5rem 0 0.75rem; color:var(--accent-3); }
+        .detail-section p, .detail-section li {
+            color:var(--text-secondary); font-size:0.95rem; line-height:1.8; margin-bottom:0.75rem;
+        }
+        .detail-section ul, .detail-section ol { padding-left:1.5rem; }
+        .detail-section strong { color:var(--text-primary); }
+
+        .prd-block {
+            background:var(--bg-card); border:1px solid var(--border-color);
+            border-left:3px solid var(--accent-1); border-radius:12px;
+            padding:1.5rem; margin:1.5rem 0;
+        }
+        .prd-block .prd-label {
+            font-size:0.75rem; font-weight:600; text-transform:uppercase;
+            letter-spacing:0.05em; color:var(--accent-2); margin-bottom:0.5rem;
+        }
+
+        .metrics-grid {
+            display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+            gap:1rem; margin:1.5rem 0;
+        }
+        .metric-card {
+            background:var(--bg-card); border:1px solid var(--border-color);
+            border-radius:12px; padding:1.25rem; text-align:center;
+        }
+        .metric-card .value {
+            font-size:1.5rem; font-weight:800;
+            background:var(--gradient-2);
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+        }
+        .metric-card .label { font-size:0.8rem; color:var(--text-secondary); margin-top:0.25rem; }
+
+        .feature-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1.5rem 0; }
+        .feature-item {
+            background:var(--bg-card); border:1px solid var(--border-color);
+            border-radius:12px; padding:1.25rem;
+        }
+        .feature-item .icon { font-size:1.5rem; margin-bottom:0.5rem; }
+        .feature-item h4 { font-size:0.95rem; font-weight:600; margin-bottom:0.4rem; }
+        .feature-item p { font-size:0.85rem; margin-bottom:0; }
+
+        .gallery {
+            display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+            gap:1rem; margin:1.5rem 0;
+        }
+        .gallery-item {
+            border-radius:12px; overflow:hidden;
+            border:1px solid var(--border-color); background:var(--bg-card);
+        }
+        .gallery-item img {
+            width:100%; height:auto; display:block;
+        }
+        .gallery-item .caption { padding:0.75rem 1rem; font-size:0.8rem; color:var(--text-secondary); }
+
+        .tech-tags { display:flex; flex-wrap:wrap; gap:0.5rem; margin:1rem 0; }
+        .tech-tags span {
+            padding:0.3rem 0.9rem; border-radius:100px; font-size:0.8rem; font-weight:500;
+            background:rgba(59,130,246,0.08); color:var(--accent-3);
+            border:1px solid rgba(59,130,246,0.1);
+        }
+
+        .design-tokens {
+            display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+            gap:0.75rem; margin:1.5rem 0;
+        }
+        .token-swatch {
+            text-align:center; padding:1rem;
+            border-radius:10px; border:1px solid var(--border-color);
+        }
+        .token-swatch .color-box {
+            width:40px; height:40px; border-radius:8px;
+            margin:0 auto 0.5rem;
+        }
+        .token-swatch .name { font-size:0.75rem; color:var(--text-secondary); }
+
+        .storage-code {
+            background:var(--bg-card); border:1px solid var(--border-color);
+            border-radius:12px; padding:1.5rem; margin:1.5rem 0;
+            font-family:'JetBrains Mono',monospace; font-size:0.8rem; line-height:1.6;
+            overflow-x:auto;
+        }
+        .storage-code .comment { color:#6b7280; }
+        .storage-code .fn { color:var(--accent-2); }
+
+        footer {
+            text-align:center; padding:2rem; color:var(--text-secondary);
+            font-size:0.8rem; border-top:1px solid var(--border-color); margin-top:2rem;
+        }
+
+        @media (max-width:768px) {
+            .feature-grid { grid-template-columns:1fr; }
+            .project-hero { padding-top:5rem; }
+            .main { padding:0 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<div class="top-bar">
+    <a href="portfolio.html">← 返回作品集</a>
+</div>
+
+<div class="main">
+
+<div class="project-hero">
+    <div class="breadcrumb"><a href="portfolio.html">作品集</a> / 废柴打卡器</div>
+    <div class="badge">🔥 微信小程序 · 极简工具</div>
+    <h1>废柴打卡器 <span class="gradient-text">Waste Punk Check-in</span></h1>
+    <p class="subtitle">
+        "打开 → 点一下 → 关掉" —— 全程不超过 3 秒的极简打卡工具。
+        去社交、去等级、去社区，只保留日历打卡和月度统计。
+        轻松调侃的产品调性，帮助用户无负担地养成习惯。
+    </p>
+    <div class="project-meta">
+        <div class="meta-item">📅 <strong>2026</strong></div>
+        <div class="meta-item">📱 <strong>微信小程序</strong></div>
+        <div class="meta-item">📋 <strong>版本 V1 (上架版)</strong></div>
+        <div class="meta-item">👤 <strong>产品经理 · 全流程</strong></div>
+    </div>
+</div>
+
+<!-- Problem -->
+<div class="detail-section">
+    <h2><span class="accent">01</span> 问题与洞察</h2>
+    <p>
+        市面上的习惯追踪类应用功能越来越臃肿——专注森林、社交广场、等级系统、社区动态……
+        对于只想<strong>"每天打个卡就走"</strong>的用户来说，这种复杂度反而成为负担。
+    </p>
+    <p>具体场景包括但不限于：</p>
+    <ul>
+        <li>记录每日排便情况，配合益生菌/饮食调整追踪改善效果</li>
+        <li>记录奶茶摄入频次，辅助逐步减量（一天一杯 → 两天一杯）</li>
+        <li>记录喝水、运动、读书、冥想等日常习惯的完成情况</li>
+    </ul>
+    <div class="prd-block">
+        <div class="prd-label">🎯 产品哲学</div>
+        <p style="margin-bottom:0;">
+            <strong>"废柴"不是自嘲，而是接纳。</strong> 不做强迫式的习惯养成，而是提供一个
+            轻松、无压力的记录工具。核心交互路径只有两步：打开日历 → 点击打卡项。
+            可在任一日期前置/追溯打卡，月底自动生成统计报表。
+        </p>
+    </div>
+</div>
+
+<!-- Features -->
+<div class="detail-section">
+    <h2><span class="accent">02</span> 核心功能</h2>
+    <div class="feature-grid">
+        <div class="feature-item">
+            <div class="icon">📅</div>
+            <h4>月历概览</h4>
+            <p>打开即见本月打卡概览，带标记圆点的日期一目了然</p>
+        </div>
+        <div class="feature-item">
+            <div class="icon">👆</div>
+            <h4>一键打卡</h4>
+            <p>点击日期查看当日打卡项列表，点击复选框切换完成状态</p>
+        </div>
+        <div class="feature-item">
+            <div class="icon">📋</div>
+            <h4>自定义打卡项</h4>
+            <p>自由添加/删除打卡项，如"排便""戒奶茶""喝水""运动"</p>
+        </div>
+        <div class="feature-item">
+            <div class="icon">🔥</div>
+            <h4>连续天数激励</h4>
+            <p>每个打卡项显示连续打卡天数 🔥，正向激励持续坚持</p>
+        </div>
+        <div class="feature-item">
+            <div class="icon">📊</div>
+            <h4>月度统计</h4>
+            <p>打卡天数、完成率、最长连续天数，三大核心指标一目了然</p>
+        </div>
+        <div class="feature-item">
+            <div class="icon">🏆</div>
+            <h4>完成排行</h4>
+            <p>各打卡项完成次数排行，了解哪些坚持得好、哪些需要加强</p>
+        </div>
+    </div>
+</div>
+
+<!-- Design System -->
+<div class="detail-section">
+    <h2><span class="accent">03</span> 设计系统</h2>
+    <div class="design-tokens">
+        <div class="token-swatch">
+            <div class="color-box" style="background:#3A99F2;"></div>
+            <div class="name">主色 #3A99F2</div>
+        </div>
+        <div class="token-swatch">
+            <div class="color-box" style="background:#52C41A;"></div>
+            <div class="name">完成 #52C41A</div>
+        </div>
+        <div class="token-swatch">
+            <div class="color-box" style="background:#FF6B35;"></div>
+            <div class="name">激励 #FF6B35</div>
+        </div>
+    </div>
+    <p>产品调性：轻松、调侃、去负担。保留 🔥 等表情符号，拒绝过度设计。</p>
+</div>
+
+<!-- Architecture -->
+<div class="detail-section">
+    <h2><span class="accent">04</span> 架构设计亮点</h2>
+    <h3>📦 模块化存储层</h3>
+    <p>
+        设计了一个深度模块 <code>Storage 层</code>（utils/storage.js），封装所有本地存储操作，
+        对外暴露统一 API 接口。接口固定后，V2 切换到云存储时只需替换该模块内部实现，
+        页面代码无需改动。
+    </p>
+    <div class="storage-code">
+<span class="comment">// Storage 层核心接口设计</span>
+<span class="fn">getCheckinItems</span>()       <span class="comment">// 获取打卡项列表</span>
+<span class="fn">setCheckinItems</span>(items)  <span class="comment">// 保存打卡项</span>
+<span class="fn">getRecords</span>()              <span class="comment">// 获取全部打卡记录</span>
+<span class="fn">saveRecord</span>(date, name, checked) <span class="comment">// 保存单条记录</span>
+<span class="fn">getRecordsForDate</span>(date)    <span class="comment">// 获取某日记录</span>
+<span class="fn">getRecordsForMonth</span>(year, month) <span class="comment">// 获取某月记录</span>
+<span class="fn">addItem</span>(name) / <span class="fn">removeItem</span>(name) <span class="comment">// 增删打卡项</span>
+<span class="fn">calculateStreak</span>(itemName, fromDate) <span class="comment">// 计算连续天数</span>
+    </div>
+
+    <h3>🗄️ 数据存储策略</h3>
+    <ul>
+        <li>两把锁：<code>checkinItems</code>（打卡项列表）和 <code>checkinRecords</code>（打卡记录）</li>
+        <li>记录格式：<code>{"YYYY-MM-DD": [{name: "运动", checked: true}, ...]}</code></li>
+        <li>不上云、不涉及用户身份标识、不需要登录</li>
+        <li>满足微信小程序上架合规要求，内置隐私政策页面</li>
+    </ul>
+</div>
+
+<!-- Screens -->
+<div class="detail-section">
+    <h2><span class="accent">05</span> 产品截图</h2>
+    <div class="gallery">
+        <div class="gallery-item">
+            <img src="assets/checkin/ScreenShot_1.png" alt="废柴打卡器截图1" loading="lazy" />
+            <div class="caption">日历打卡 - 月历概览与打卡标记</div>
+        </div>
+        <div class="gallery-item">
+            <img src="assets/checkin/ScreenShot_2.png" alt="废柴打卡器截图2" loading="lazy" />
+            <div class="caption">打卡详情 - 打卡项列表与🔥连续天数</div>
+        </div>
+        <div class="gallery-item">
+            <img src="assets/checkin/ScreenShot_3.png" alt="废柴打卡器截图3" loading="lazy" />
+            <div class="caption">月度统计 - 三大核心指标 + 完成排行</div>
+        </div>
+    </div>
+</div>
+
+<!-- Tech -->
+<div class="detail-section">
+    <h2><span class="accent">06</span> 技术栈</h2>
+    <div class="tech-tags">
+        <span>微信小程序</span>
+        <span>JavaScript (ES6+)</span>
+        <span>WXML + WXSS</span>
+        <span>本地缓存 Storage</span>
+        <span>模块化设计</span>
+        <span>自定义导航栏</span>
+        <span>自定义 TabBar</span>
+    </div>
+</div>
+
+<!-- PRD -->
+<div class="detail-section">
+    <h2><span class="accent">07</span> PRD 文档</h2>
+    <p>完整的 PRD 包含 14 条用户故事、详细的数据模型定义（情侣打卡/单人模式的差异化设计）、存储层模块接口规范、页面路由与交互流程、合规事项（隐私政策）、V2 云存储规划及详细的测试策略。</p>
+    <p style="margin-top:1rem;">
+        <a href="prd/废柴打卡器PRD.md" style="color:var(--accent-2);text-decoration:none;font-weight:600;" target="_blank">
+            📄 查看完整 PRD 文档（Markdown） →
+        </a>
+    </p>
+</div>
+
+</div>
+
+<footer>
+    <p>© 2026 陈莹璇 · <a href="portfolio.html" style="color:var(--accent-2);text-decoration:none;">返回作品集</a></p>
+</footer>
+
+</body>
+</html>
