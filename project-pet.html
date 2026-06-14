@@ -190,13 +190,13 @@
     <div class="badge">🐾 微信小程序 · 工具</div>
     <h1>宠宠记事本 <span class="gradient-text">Pet Care Notebook</span></h1>
     <p class="subtitle">
-        为多宠家庭设计的极简备忘录式微信小程序。多宠物档案管理、喂食/排泄快速记录、
-        健康提醒、今日概况看板。单用户免登录，本地存储即开即用。
+        为多宠家庭设计的极简备忘录式微信小程序。多宠档案管理、喂食/排泄/洗护快速记录、
+        体重追踪、生日提醒、宠物档案页。单用户免登录，本地存储即开即用。
     </p>
     <div class="project-meta">
         <div class="meta-item">📅 <strong>2026</strong></div>
         <div class="meta-item">📱 <strong>微信小程序</strong></div>
-        <div class="meta-item">📋 <strong>版本 V1.0 (MVP)</strong></div>
+        <div class="meta-item">📋 <strong>版本 V1.1</strong></div>
         <div class="meta-item">👤 <strong>产品经理 · 全流程</strong></div>
     </div>
 </div>
@@ -206,20 +206,25 @@
     <h2><span class="accent">01</span> 问题与洞察</h2>
     <p>
         多宠家庭在日常生活中面临大量琐碎的宠物看护信息管理需求：每只宠物的喂食品牌和口味偏好、
-        排泄是否正常、驱虫和疫苗是否按时等。仅靠大脑记忆或零散的聊天记录很容易遗忘或混淆，
-        尤其是当家中同时饲养猫和狗时，不同物种的喂养习惯和健康管理周期差异更大。
+        排泄是否正常、驱虫和疫苗是否按时、洗澡和美容多久做一次、指甲该剪了没——
+        不同物种的喂养习惯和健康管理周期差异更大。仅靠大脑记忆或零散的聊天记录，很容易遗忘或混淆。
     </p>
     <p>
-        市面上缺少一款足够轻量、专注于<strong>"多宠日常记录"</strong>而非"社交/电商/医疗"的工具。
+        此外，洗澡、美容、剪指甲等洗护记录同样需要管理，才能掌握每只宠物的护理周期。
+        宠物的生日和体重变化也是主人非常关心的信息——生日到了需要庆祝，体重异常需要及时关注。
+    </p>
+    <p>
+        市面上缺少一款足够轻量、专注于<strong>"多宠日常记录"</strong>而非社交/电商/医疗的工具。
         用户需要一个开箱即用、交互简洁的备忘录式应用，能够快速记录每只宠物的日常，
-        并在首页一目了然地看到今日概况。
+        在首页一目了然地看到今日概况，并为每只宠物建立完整的数字化档案。
     </p>
     <div class="prd-block">
         <div class="prd-label">🎯 核心设计原则</div>
         <p style="margin-bottom:0.3rem;">✅ <strong>单用户免登录</strong> — 微信身份直接使用，无注册流程</p>
         <p style="margin-bottom:0.3rem;">✅ <strong>多宠切换</strong> — 首页快速切换，数据按宠物隔离</p>
-        <p style="margin-bottom:0.3rem;">✅ <strong>快速记录</strong> — 喂食和排泄两步内完成</p>
-        <p style="margin-bottom:0.3rem;">✅ <strong>今日概况</strong> — 喂食/排泄次数、待办提醒一目了然</p>
+        <p style="margin-bottom:0.3rem;">✅ <strong>快速记录</strong> — 喂食、排泄、洗护均在两步内完成</p>
+        <p style="margin-bottom:0.3rem;">✅ <strong>今日概况</strong> — 喂食/排泄/洗护次数、待办提醒一目了然</p>
+        <p style="margin-bottom:0.3rem;">✅ <strong>宠物档案</strong> — 照片、性别、品种、生日、体重、备注、记录统计集中展示</p>
         <p style="margin-bottom:0;">✅ <strong>本地存储</strong> — 即开即用，无需网络</p>
     </div>
 </div>
@@ -231,7 +236,7 @@
         <div class="page-card">
             <div class="emoji">🏠</div>
             <h4>首页</h4>
-            <p>宠物切换栏 · 今日统计 · 快捷记录入口 · 即将提醒</p>
+            <p>宠物切换栏 · 今日概况 · 快捷记录入口 · 即将提醒（含生日）</p>
         </div>
         <div class="page-card">
             <div class="emoji">🍖</div>
@@ -244,24 +249,44 @@
             <p>便便状态 · 尿尿状态 · 时间 · 备注</p>
         </div>
         <div class="page-card">
+            <div class="emoji">🛁</div>
+            <h4>洗澡记录 🆕</h4>
+            <p>洗护产品 · 配合程度 · 时间</p>
+        </div>
+        <div class="page-card">
+            <div class="emoji">💇</div>
+            <h4>美容记录 🆕</h4>
+            <p>服务项目（修毛/修剪等）· 时间</p>
+        </div>
+        <div class="page-card">
+            <div class="emoji">✂️</div>
+            <h4>剪指甲 🆕</h4>
+            <p>简洁单页 · 快速记录</p>
+        </div>
+        <div class="page-card">
+            <div class="emoji">👤</div>
+            <h4>宠物档案 🆕</h4>
+            <p>大图头像 · 信息卡片 · 记录统计 · 体重展示 · 生日倒计时</p>
+        </div>
+        <div class="page-card">
             <div class="emoji">📋</div>
             <h4>历史记录</h4>
-            <p>按宠物/日期筛选 · 混合时间线</p>
+            <p>按宠物/日期/类型筛选 · 混合时间线</p>
         </div>
         <div class="page-card">
             <div class="emoji">🐱</div>
             <h4>宠物管理</h4>
-            <p>添加/编辑/删除宠物档案</p>
+            <p>添加/编辑宠物 · 照片上传 · 性别/体重/备注</p>
         </div>
         <div class="page-card">
             <div class="emoji">⏰</div>
             <h4>提醒管理</h4>
-            <p>驱虫 · 疫苗 · 洗澡 · 滑动删除</p>
+            <p>驱虫 · 疫苗 · 洗澡 · 生日 · 滑动删除</p>
         </div>
         <div class="page-card">
             <div class="emoji">⚙️</div>
             <h4>管理页</h4>
-            <p>快捷入口汇总</p>
+            <p>洗护快捷入口汇总</p>
         </div>
         <div class="page-card">
             <div class="emoji">👤</div>
@@ -283,12 +308,12 @@
         <div class="feature-item">
             <div class="icon">📊</div>
             <h4>今日概况看板</h4>
-            <p>喂食次数、排泄次数、待办提醒一目了然，掌握每日照顾情况</p>
+            <p>喂食次数、排泄次数、洗护记录、待办提醒一目了然，掌握每日照顾情况</p>
         </div>
         <div class="feature-item">
             <div class="icon">⚡</div>
             <h4>两步快速记录</h4>
-            <p>喂食和排泄记录均可在两步内完成，打开即记，用完即走</p>
+            <p>喂食、排泄、洗澡、美容、剪指甲均可在两步内完成，打开即记，用完即走</p>
         </div>
         <div class="feature-item">
             <div class="icon">😋</div>
@@ -296,9 +321,29 @@
             <p>通过 emoji 快速标记喜欢程度（喜欢/一般/不喜欢），直观追踪偏食</p>
         </div>
         <div class="feature-item">
+            <div class="icon">📸</div>
+            <h4>宠物照片 🆕</h4>
+            <p>为每只宠物上传真实照片，档案页大图显示，直观识别</p>
+        </div>
+        <div class="feature-item">
+            <div class="icon">⚖️</div>
+            <h4>体重追踪 🆕</h4>
+            <p>记录体重变化，历史数据可追溯，关注宠物健康趋势</p>
+        </div>
+        <div class="feature-item">
+            <div class="icon">🛁</div>
+            <h4>洗护追踪 🆕</h4>
+            <p>洗澡（产品/配合度）、美容（服务项目）、剪指甲，完整护理周期管理</p>
+        </div>
+        <div class="feature-item">
+            <div class="icon">👤</div>
+            <h4>宠物档案 🆕</h4>
+            <p>集中展示宠物照片、性别、品种、生日、体重、备注及所有记录统计</p>
+        </div>
+        <div class="feature-item">
             <div class="icon">🔔</div>
             <h4>定期提醒</h4>
-            <p>驱虫、疫苗、洗澡等周期性提醒，开关控制，滑动删除</p>
+            <p>驱虫、疫苗、洗澡、生日等周期性提醒，开关控制，滑动删除</p>
         </div>
         <div class="feature-item">
             <div class="icon">📈</div>
@@ -311,13 +356,16 @@
 <!-- Data Model -->
 <div class="detail-section">
     <h2><span class="accent">04</span> 数据模型设计</h2>
-    <p>采用适合小程序端内存操作的扁平数组结构，所有数据通过 <code>app.globalData</code> 统一管理。</p>
+    <p>采用适合小程序端内存操作的扁平数组结构，所有数据通过 <code>app.globalData</code> 统一管理。v1.1 新增性别、体重、照片、洗护记录类型及生日提醒。</p>
     <div class="data-model">
-<span class="comment">// 宠物档案</span>
+<span class="comment">// 宠物档案 v1.1 (新增 gender/weight/photo/note/weightHistory)</span>
 { id: <span class="number">1700000000</span>, name: <span class="string">"嘟嘟"</span>,
   emoji: <span class="string">"🐱"</span>, type: <span class="string">"cat"</span>,
   color: <span class="string">"#FFB07C"</span>, breed: <span class="string">"橘猫"</span>,
-  birthDate: <span class="string">"2023-06-01"</span> }
+  birthDate: <span class="string">"2023-06-01"</span>,
+  gender: <span class="string">"male"</span>, weight: <span class="string">"5.2kg"</span>,
+  photo: <span class="string">"wxfile://..."</span>, note: <span class="string">"最爱吃罐头"</span>,
+  weightHistory: [ { date: <span class="string">"2026-01-01"</span>, weight: <span class="string">"5.0kg"</span> } ] }
 
 <span class="comment">// 喂食记录 (type: "feed")</span>
 { id: <span class="number">1700000001</span>, petId: <span class="number">1700000000</span>,
@@ -332,7 +380,18 @@
   time: <span class="string">"09:00"</span>,
   poopType: <span class="string">"normal"</span>, peeType: <span class="string">"normal"</span> }
 
-<span class="comment">// 提醒事项</span>
+<span class="comment">// 洗澡记录 (type: "bath") 🆕</span>
+{ id: <span class="number">1700000004</span>, petId: <span class="number">1700000000</span>,
+  type: <span class="string">"bath"</span>, date: <span class="string">"2026-06-10"</span>,
+  product: <span class="string">"雪貂沐浴露"</span>,
+  cooperation: <span class="string">"good"</span> }
+
+<span class="comment">// 美容记录 (type: "grooming") 🆕</span>
+{ id: <span class="number">1700000005</span>, petId: <span class="number">1700000000</span>,
+  type: <span class="string">"grooming"</span>, date: <span class="string">"2026-06-08"</span>,
+  service: <span class="string">"修毛"</span> }
+
+<span class="comment">// 提醒事项 (新增 birthday 类型)</span>
 { id: <span class="number">1700000003</span>, petId: <span class="number">1700000000</span>,
   type: <span class="string">"deworm"</span>, title: <span class="string">"体内驱虫"</span>,
   time: <span class="string">"20:00"</span>, repeat: <span class="string">"monthly"</span>,
@@ -369,7 +428,9 @@
     <h3>📐 架构决策</h3>
     <ul>
         <li><strong>全局数据层</strong> — 所有数据集中在 <code>app.globalData</code>，通过统一 save/get 方法读写</li>
-        <li><strong>单一 records 数组</strong> — 喂食和排泄共用 records 数组，type 字段区分，简化查询逻辑</li>
+        <li><strong>统一 records 数组</strong> — 喂食、排泄、洗澡、美容、剪指甲共用 records 数组，type 字段区分，简化查询逻辑</li>
+        <li><strong>照片处理</strong> — 使用 wx.chooseMedia 选择照片，本地临时路径存储至 pet.photo 字段</li>
+        <li><strong>体重追踪</strong> — weightHistory 数组记录历史体重数据，档案页展示当前体重与历史记录</li>
         <li><strong>路由设计</strong> — 底部 Tab 用 redirectTo 避免页面栈堆积，表单页用 navigateTo 入栈</li>
         <li><strong>持久化</strong> — wx.setStorageSync 在每次数据变更时同步写入，启动时从缓存恢复</li>
     </ul>
@@ -381,7 +442,7 @@
     <div class="gallery">
         <div class="gallery-item">
             <img src="assets/pet/ScreenShot_1.png" alt="宠宠记事本截图1" loading="lazy" />
-            <div class="caption">首页 - 今日概况看板</div>
+            <div class="caption">首页 - 宠物切换栏 · 今日概况 · 快捷记录 · 即将提醒</div>
         </div>
         <div class="gallery-item">
             <img src="assets/pet/ScreenShot_2.png" alt="宠宠记事本截图2" loading="lazy" />
@@ -397,7 +458,7 @@
         </div>
         <div class="gallery-item">
             <img src="assets/pet/ScreenShot_5.png" alt="宠宠记事本截图5" loading="lazy" />
-            <div class="caption">宠物管理 - 多宠资料与档案</div>
+            <div class="caption">宠物档案页 - 照片/性别/品种/体重/记录统计/生日倒计时</div>
         </div>
     </div>
 </div>
@@ -405,7 +466,7 @@
 <!-- PRD -->
 <div class="detail-section">
     <h2><span class="accent">07</span> PRD 文档</h2>
-    <p>完整的 PRD 包含 20 条用户故事（覆盖核心问答、快速记录、提醒、数据统计等场景）、详细的数据模型定义、页面模块说明、UI 设计系统规范、测试策略及 V2.0 规划（数据备份导出、健康报告、体重记录、云开发迁移等）。</p>
+    <p>完整的 PRD 文档定义了 10 条用户故事（覆盖宠物档案、喂食排泄、洗护追踪、体重管理、生日提醒等场景）、v1.0→v1.1 升级规格（新增洗护记录、宠物档案页、体重追踪、照片上传、生日提醒）、详细的数据模型与字段定义、页面模块说明、首页与档案页原型设计，以及 V2.0 规划（云开发迁移、推送通知、健康报告、体重曲线图等）。</p>
     <p style="margin-top:1rem;">
         <a href="prd/宠宠记事本PRD.md" style="color:var(--accent-2);text-decoration:none;font-weight:600;" target="_blank">
             📄 查看完整 PRD 文档（Markdown） →
